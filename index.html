@@ -1,1 +1,43 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MVP App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+  <div class="bg-white p-6 rounded-2xl shadow-md w-80">
+    <h1 class="text-xl font-bold mb-4 text-center">My MVP</h1>
+
+    <input id="input" type="text" placeholder="Type something..."
+      class="w-full p-2 border rounded mb-3">
+
+    <button onclick="addItem()"
+      class="w-full bg-blue-500 text-white p-2 rounded">
+      Add
+    </button>
+
+    <ul id="list" class="mt-4"></ul>
+  </div>
+
+  <script>
+    function addItem() {
+      const input = document.getElementById("input");
+      const list = document.getElementById("list");
+
+      if (input.value.trim() === "") return;
+
+      const li = document.createElement("li");
+      li.textContent = input.value;
+      li.className = "p-2 bg-gray-200 rounded mt-2";
+
+      list.appendChild(li);
+      console.log("Item added (mock, no database yet):", input.value);
+
+      input.value = "";
+    }
+  </script>
+
+</body>
+</html>
