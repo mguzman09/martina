@@ -73,6 +73,13 @@ button:hover {
   justify-content: space-between;
   margin: 20px;
 }
+
+.thank-you {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #4a148c;
+  font-size: 18px;
+}
 ```
 
   </style>
@@ -114,6 +121,7 @@ button:hover {
 <div id="screen3" class="screen">
   <h2>Booking Summary</h2>
   <p id="summary"></p>
+  <p class="thank-you">Thank you!</p>
 
   <div class="nav">
     <button onclick="goBackSeats()">Back</button>
@@ -122,8 +130,8 @@ button:hover {
 </div>
 
 <script>
-  const seatPriceAdult = 10;
-  const seatPriceChild = 5;
+  const seatPriceAdult = 70;   // Bs.
+  const seatPriceChild = 35;  // Bs.
 
   function goToSeats() {
     document.getElementById("screen1").classList.remove("active");
@@ -140,7 +148,6 @@ button:hover {
     document.getElementById("screen2").classList.add("active");
   }
 
-  // Create seats
   const seating = document.getElementById("seating");
   const rows = 5;
   const cols = 8;
@@ -187,7 +194,7 @@ button:hover {
     document.getElementById("summary").innerText =
       "Adults: " + adults +
       "\nChildren: " + children +
-      "\nTotal Price: $" + totalPrice;
+      "\nTotal Price: Bs. " + totalPrice;
 
     document.getElementById("screen2").classList.remove("active");
     document.getElementById("screen3").classList.add("active");
@@ -196,4 +203,5 @@ button:hover {
 
 </body>
 </html>
+
 
