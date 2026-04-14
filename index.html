@@ -1,9 +1,99 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Test Page</title>
-  </head>
-  <body>
-    <h1 style="color: purple;">booking seats for theater </h1>
-  </body>
+<head>
+  <title>Don Bosco Theater Booking</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+    }
+
+    .container {
+      margin-top: 20px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+    }
+
+    .seat {
+      width: 30px;
+      height: 30px;
+      margin: 5px;
+      background-color: lightgray;
+      cursor: pointer;
+    }
+
+    .seat.selected {
+      background-color: green;
+    }
+
+    .seat.booked {
+      background-color: red;
+      cursor: not-allowed;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 style="color: purple;">Don Bosco Theater Seat Booking</h1>
+
+  <div class="container" id="seating"></div>
+
+  <button onclick="bookSeats()">Book Selected Seats</button>
+
+  <p id="message"></p>
+
+  <script>
+    const seating = document.getElementById("seating");
+    const rows = 5;
+    const cols = 8;
+
+    // Create seats
+    for (let i = 0; i < rows; i++) {
+      let row = document.createElement("div");
+      row.classList.add("row");
+
+      for (let j = 0; j < cols; j++) {
+        let seat = document.createElement("div");
+        seat.classList.add("seat");
+
+        seat.addEventListener("click", () => {
+          if (!seat.classList.contains("booked")) {
+            seat.classList.toggle("selected");
+          }
+        });
+
+        row.appendChild(seat);
+      }
+
+      seating.appendChild(row);
+    }
+
+    function bookSeats() {
+      let selected = document.querySelectorAll(".seat.selected");
+
+      if (selected.length === 0) {
+        document.getElementById("message").innerText = "No seats selected!";
+        return;
+      }
+
+      selected.forEach(seat => {
+        seat.classList.remove("selected");
+        seat.classList.add("booked");
+      });
+
+      document.getElementById("message").innerText =
+        selected.length + " seat(s) successfully booked!";
+    }
+  </script>
+
+</body>
 </html>
