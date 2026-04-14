@@ -15,6 +15,10 @@ h1 {
   color: #6a1b9a;
 }
 
+h2 {
+  color: #7b1fa2;
+}
+
 .screen {
   display: none;
 }
@@ -107,7 +111,7 @@ button:hover {
 <!-- SCREEN 2 -->
 
 <div id="screen2" class="screen">
-  <h2>Select Your Seats</h2>
+  <h2>Book your Don Bosco seats!</h2>
   <div class="container" id="seating"></div>
 
   <div class="nav">
@@ -130,8 +134,8 @@ button:hover {
 </div>
 
 <script>
-  const seatPriceAdult = 70;   // Bs.
-  const seatPriceChild = 35;  // Bs.
+  const seatPriceAdult = 60;   // Bs.
+  const seatPriceChild = 40;   // Bs.
 
   function goToSeats() {
     document.getElementById("screen1").classList.remove("active");
