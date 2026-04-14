@@ -1,99 +1,199 @@
 <!DOCTYPE html>
+
 <html>
 <head>
   <title>Don Bosco Theater Booking</title>
   <style>
     body {
       font-family: Arial;
+      background-color: #f3e5f5;
       text-align: center;
     }
 
-    .container {
-      margin-top: 20px;
-    }
+```
+h1 {
+  color: #6a1b9a;
+}
 
-    .row {
-      display: flex;
-      justify-content: center;
-    }
+.screen {
+  display: none;
+}
 
-    .seat {
-      width: 30px;
-      height: 30px;
-      margin: 5px;
-      background-color: lightgray;
-      cursor: pointer;
-    }
+.active {
+  display: block;
+}
 
-    .seat.selected {
-      background-color: green;
-    }
+.container {
+  margin-top: 20px;
+}
 
-    .seat.booked {
-      background-color: red;
-      cursor: not-allowed;
-    }
+.row {
+  display: flex;
+  justify-content: center;
+}
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-    }
+.seat {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  background-color: #d1c4e9;
+  cursor: pointer;
+}
+
+.seat.selected {
+  background-color: #8e24aa;
+}
+
+.seat.booked {
+  background-color: #4a148c;
+  cursor: not-allowed;
+}
+
+input {
+  padding: 8px;
+  margin: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #7b1fa2;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4a148c;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+```
+
   </style>
 </head>
 
 <body>
 
-  <h1 style="color: purple;">Don Bosco Theater Seat Booking</h1>
+<h1>Don Bosco Theater Booking</h1>
 
+<!-- SCREEN 1 -->
+
+<div id="screen1" class="screen active">
+  <h2>Enter Ticket Details</h2>
+
+<label>Adults:</label> <input type="number" id="adults" min="0" value="0"><br>
+
+<label>Children:</label> <input type="number" id="children" min="0" value="0"><br>
+
+  <div class="nav">
+    <div></div>
+    <button onclick="goToSeats()">Next</button>
+  </div>
+</div>
+
+<!-- SCREEN 2 -->
+
+<div id="screen2" class="screen">
+  <h2>Select Your Seats</h2>
   <div class="container" id="seating"></div>
 
-  <button onclick="bookSeats()">Book Selected Seats</button>
+  <div class="nav">
+    <button onclick="goBack()">Back</button>
+    <button onclick="confirmBooking()">Next</button>
+  </div>
+</div>
 
-  <p id="message"></p>
+<!-- SCREEN 3 -->
 
-  <script>
-    const seating = document.getElementById("seating");
-    const rows = 5;
-    const cols = 8;
+<div id="screen3" class="screen">
+  <h2>Booking Summary</h2>
+  <p id="summary"></p>
 
-    // Create seats
-    for (let i = 0; i < rows; i++) {
-      let row = document.createElement("div");
-      row.classList.add("row");
+  <div class="nav">
+    <button onclick="goBackSeats()">Back</button>
+    <div></div>
+  </div>
+</div>
 
-      for (let j = 0; j < cols; j++) {
-        let seat = document.createElement("div");
-        seat.classList.add("seat");
+<script>
+  const seatPriceAdult = 10;
+  const seatPriceChild = 5;
 
-        seat.addEventListener("click", () => {
-          if (!seat.classList.contains("booked")) {
-            seat.classList.toggle("selected");
-          }
-        });
+  function goToSeats() {
+    document.getElementById("screen1").classList.remove("active");
+    document.getElementById("screen2").classList.add("active");
+  }
 
-        row.appendChild(seat);
-      }
+  function goBack() {
+    document.getElementById("screen2").classList.remove("active");
+    document.getElementById("screen1").classList.add("active");
+  }
 
-      seating.appendChild(row);
-    }
+  function goBackSeats() {
+    document.getElementById("screen3").classList.remove("active");
+    document.getElementById("screen2").classList.add("active");
+  }
 
-    function bookSeats() {
-      let selected = document.querySelectorAll(".seat.selected");
+  // Create seats
+  const seating = document.getElementById("seating");
+  const rows = 5;
+  const cols = 8;
 
-      if (selected.length === 0) {
-        document.getElementById("message").innerText = "No seats selected!";
-        return;
-      }
+  for (let i = 0; i < rows; i++) {
+    let row = document.createElement("div");
+    row.classList.add("row");
 
-      selected.forEach(seat => {
-        seat.classList.remove("selected");
-        seat.classList.add("booked");
+    for (let j = 0; j < cols; j++) {
+      let seat = document.createElement("div");
+      seat.classList.add("seat");
+
+      seat.addEventListener("click", () => {
+        if (!seat.classList.contains("booked")) {
+          seat.classList.toggle("selected");
+        }
       });
 
-      document.getElementById("message").innerText =
-        selected.length + " seat(s) successfully booked!";
+      row.appendChild(seat);
     }
-  </script>
+
+    seating.appendChild(row);
+  }
+
+  function confirmBooking() {
+    let selectedSeats = document.querySelectorAll(".seat.selected");
+    let adults = parseInt(document.getElementById("adults").value) || 0;
+    let children = parseInt(document.getElementById("children").value) || 0;
+
+    let totalPeople = adults + children;
+
+    if (selectedSeats.length !== totalPeople) {
+      alert("Number of seats must match number of people!");
+      return;
+    }
+
+    let totalPrice = (adults * seatPriceAdult) + (children * seatPriceChild);
+
+    selectedSeats.forEach(seat => {
+      seat.classList.remove("selected");
+      seat.classList.add("booked");
+    });
+
+    document.getElementById("summary").innerText =
+      "Adults: " + adults +
+      "\nChildren: " + children +
+      "\nTotal Price: $" + totalPrice;
+
+    document.getElementById("screen2").classList.remove("active");
+    document.getElementById("screen3").classList.add("active");
+  }
+</script>
 
 </body>
 </html>
+
